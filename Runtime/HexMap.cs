@@ -33,13 +33,7 @@ namespace HexEngine {
             }
             set
             {
-                if (value == null) {
-                    Debug.LogError($"Overriding tile({coords})!");
-                    _tiles.Remove(coords);
-                }
-                else {
-                    _tiles[coords] = value;
-                }
+                _tiles[coords] = value;
             }
         }
 

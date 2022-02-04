@@ -112,8 +112,8 @@ namespace HexEngine {
         /// </summary>
         public static HexDirection Rotate(this HexDirection direction, int rotation) {
             var value = (int) direction + rotation;
-            value = ((value % 6) + 6);
-            return (HexDirection) (rotation % 6);
+            value = (value % 6) + 6;
+            return (HexDirection) (value % 6);
         }
 
         /// <summary>
