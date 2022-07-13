@@ -13,27 +13,27 @@ namespace HexEngine {
         /// Returns HexCoords of hex on given point (ignoring point.y value).
         /// </summary>
         public static HexCoords PointToHexCoords(Vector3 point, float gridScale = 1f) {
-            return RoundAxialToHex(PointToAxial(point, gridScale));
+            return RoundPositionToCoords(PointToHexPosition(point, gridScale));
         }
 
         /// <summary>
         /// Converts 3D point to Vector2 containing axial position.
         /// </summary>
-        public static Vector2 PointToAxial(Vector3 point, float gridScale = 1f) {
+        public static HexPosition PointToHexPosition(Vector3 point, float gridScale = 1f) {
             var x = B * point.x;
             var y = (A * point.x + point.z);
-            return new Vector2(x, y) / gridScale;
+            return new HexPosition(x / gridScale, y / gridScale);
         }
 
         /// <summary>
         /// Rounds axial coordinates and converts them to the HexCoords.
         /// </summary>
-        public static HexCoords RoundAxialToHex(Vector2 axial) {
-            var x = axial.x;
-            var y = axial.y;
-            var z = -axial.x - axial.y;
-            var xr = Mathf.RoundToInt(axial.x);
-            var yr = Mathf.RoundToInt(axial.y);
+        public static HexCoords RoundPositionToCoords(HexPosition position) {
+            var x = position.X;
+            var y = position.Y;
+            var z = position.Z;
+            var xr = Mathf.RoundToInt(x);
+            var yr = Mathf.RoundToInt(y);
             var zr = Mathf.RoundToInt(z);
 
             var diffX = Mathf.Abs(x - xr);
