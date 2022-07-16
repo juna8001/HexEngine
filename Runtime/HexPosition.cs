@@ -2,6 +2,7 @@
 using UnityEngine;
 
 namespace HexEngine {
+    [Serializable]
     public struct HexPosition : IEquatable<HexPosition> {
         public static readonly HexPosition Zero = new HexPosition();
 

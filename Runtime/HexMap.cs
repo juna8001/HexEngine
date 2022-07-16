@@ -3,20 +3,20 @@ using System.Linq;
 using UnityEngine;
 
 namespace HexEngine {
-    public abstract class HexMap {
-        public abstract IEnumerable<IHexTile> AllBaseTiles { get; }
-        public abstract bool HasTile(HexCoords coords);
-        public abstract IHexTile GetTile(HexCoords coords);
+    public interface IHexMap {
+        public IEnumerable<IHexTile> AllBaseTiles { get; }
+        public bool HasTile(HexCoords coords);
+        public IHexTile GetTile(HexCoords coords);
     }
     
     /// <summary>
     /// Simple class for storing hexes in dictionary.
     /// </summary>
-    public class HexMap<T> : HexMap where T : IHexTile<T> {
+    public class HexMap<T> : IHexMap where T : IHexTile<T> {
         private Dictionary<HexCoords, T> _tiles = new Dictionary<HexCoords, T>();
 
         public IEnumerable<T> AllTiles => _tiles.Values;
-        public override IEnumerable<IHexTile> AllBaseTiles => AllTiles.Cast<IHexTile>();
+        public IEnumerable<IHexTile> AllBaseTiles => AllTiles.Cast<IHexTile>();
         
         /// <summary>
         /// Tries to return a tile on given coords, returns null if no tile exists.
@@ -37,7 +37,22 @@ namespace HexEngine {
             }
         }
 
-        public override bool HasTile(HexCoords coords) => _tiles.ContainsKey(coords);
-        public override IHexTile GetTile(HexCoords coords) => this[coords];
+        public bool HasTile(HexCoords coords) => _tiles.ContainsKey(coords);
+        public IHexTile GetTile(HexCoords coords) => this[coords];
+
+        public bool TryGetTile<TI>(HexCoords coords, out TI tile) where TI : T
+        {
+            if (_tiles.TryGetValue(coords, out T t))
+            {
+                if (t is TI foundTile)
+                {
+                    tile = foundTile;
+                    return true;
+                }
+            }
+
+            tile = default;
+            return false;
+        }
     }
 }
