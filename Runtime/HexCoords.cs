@@ -27,6 +27,9 @@ namespace HexEngine {
             set => _y = value;
         }
 
+        /// <summary>
+        /// Z=-X-Y
+        /// </summary>
         public int Z => -X - Y;
 
         public HexCoords(int x, int y) {
@@ -39,12 +42,21 @@ namespace HexEngine {
 
         public static HexCoords operator +(HexCoords a, HexDirection b)
             => a + b.Coords();
+
+        public static HexCoords operator +(HexDirection a, HexCoords b)
+            => a.Coords() + b;
         
         public static HexCoords operator -(HexCoords a, HexCoords b)
             => new HexCoords(a.X - b.X, a.Y - b.Y);
 
         public static HexCoords operator -(HexCoords a, HexDirection b)
             => a - b.Coords();
+
+        public static HexCoords operator *(HexCoords a, int b)
+            => new HexCoords(a.X * b, a.Y * b);
+
+        public static HexCoords operator *(int a, HexCoords b)
+            => b * a;
         
         public IEnumerable<HexCoords> Neighbours() {
             for (int i = 0; i < 6; i++) {
