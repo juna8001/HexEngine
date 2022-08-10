@@ -41,7 +41,7 @@ Vector3 vector = hexA.Offset();
 // iterate all neighbour coordinates
 foreach (HexCoords neighbour in hexA.Neighbours())
 {
-// do something with neighbour here
+    // do something with neighbour here
 }
 ```
 
